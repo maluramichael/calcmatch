@@ -162,7 +162,7 @@ int main() {
 			window.draw(spriteSelection);
 		}
 
-		text.setPosition(0, 0);
+		text.setPosition(16, 16);
 		text.setString("Score: " + std::to_string(score));
 		window.draw(text);
 
