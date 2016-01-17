@@ -12,6 +12,9 @@ int main() {
 	int score = 0;
 	int gridOffset = 64;
 
+	sf::Clock clock;
+	float gameTime = 60;
+
 	std::default_random_engine generator;
 	std::uniform_int_distribution<int> distribution(0, 9);
 
@@ -164,6 +167,10 @@ int main() {
 
 		text.setPosition(16, 16);
 		text.setString("Score: " + std::to_string(score));
+		window.draw(text);
+
+		text.setPosition(16, 715);
+		text.setString("Time: " + std::to_string((int) ceilf(gameTime - clock.getElapsedTime().asSeconds())));
 		window.draw(text);
 
 		window.display();
