@@ -121,7 +121,7 @@ int main() {
 		for (int y = 0; y < 10; ++y) {
 			for (int x = 0; x < 10; ++x) {
 				spriteCell.setPosition(x * 64 + gridOffset, y * 64 + gridOffset);
-				text.setPosition(x * 64 + gridOffset, y * 64 + gridOffset);
+				text.setPosition(x * 64 + gridOffset + 20, y * 64 + gridOffset + 13);
 				text.setString(std::to_string(grid[y][x]));
 
 				window.draw(spriteCell);
