@@ -112,7 +112,7 @@ int main() {
 			}
 
 			if (result == 10) {
-				score += 100 - (selectedCells.size() * 10);
+				score += pow(10, selectedCells.size());
 
 				for (auto cell : selectedCells) {
 					grid[cell.y][cell.x] = (short) distribution(generator);
