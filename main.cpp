@@ -61,7 +61,7 @@ int main() {
 		}
 	}
 
-	sf::RenderWindow window(sf::VideoMode(788, 788), "Match 10");
+	sf::RenderWindow window(sf::VideoMode(768, 768), "Match 10");
 	window.setFramerateLimit(30);
 	while (window.isOpen()) {
 
