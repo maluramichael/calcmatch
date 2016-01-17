@@ -2,6 +2,7 @@
 #include <random>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 using namespace std;
 
@@ -13,6 +14,22 @@ int main() {
 
 	std::default_random_engine generator;
 	std::uniform_int_distribution<int> distribution(0, 9);
+
+	sf::SoundBuffer soundBufferMatch;
+	if (!soundBufferMatch.loadFromFile("assets/powerUp7.ogg")) {
+		return 1;
+	}
+
+	sf::Sound soundMatch;
+	soundMatch.setBuffer(soundBufferMatch);
+
+	sf::SoundBuffer soundBufferSelection;
+	if (!soundBufferSelection.loadFromFile("assets/click1.ogg")) {
+		return 1;
+	}
+
+	sf::Sound soundSelection;
+	soundSelection.setBuffer(soundBufferSelection);
 
 	sf::Font font;
 	if (!font.loadFromFile("assets/AnkaCoder-b.ttf")) {
@@ -57,15 +74,19 @@ int main() {
 				case sf::Event::KeyPressed:
 					switch (event.key.code) {
 						case sf::Keyboard::Left:
+							soundSelection.play();
 							currentCell.x -= 1;
 							break;
 						case sf::Keyboard::Right:
+							soundSelection.play();
 							currentCell.x += 1;
 							break;
 						case sf::Keyboard::Up:
+							soundSelection.play();
 							currentCell.y -= 1;
 							break;
 						case sf::Keyboard::Down:
+							soundSelection.play();
 							currentCell.y += 1;
 							break;
 						case sf::Keyboard::Space:
@@ -92,10 +113,11 @@ int main() {
 
 			if (result == 10) {
 				score += 100 - (selectedCells.size() * 10);
-			}
 
-			for (auto cell : selectedCells) {
-				grid[cell.y][cell.x] = (short) distribution(generator);
+				for (auto cell : selectedCells) {
+					grid[cell.y][cell.x] = (short) distribution(generator);
+				}
+				soundMatch.play();
 			}
 
 			calculate = false;
