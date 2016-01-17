@@ -6,10 +6,10 @@
 
 using namespace std;
 
-
 int main() {
 
 	int score = 0;
+	int lastScore = 0;
 	int gridOffset = 64;
 
 	sf::Clock clock;
@@ -108,6 +108,14 @@ int main() {
 			}
 		}
 
+		int timeLeft = (int) ceilf(gameTime - clock.getElapsedTime().asSeconds());
+
+		if (timeLeft == 0) {
+			lastScore = score;
+			score = 0;
+			clock.restart();
+		}
+
 		if (calculate) {
 			int result = 0;
 			for (auto cell : selectedCells) {
@@ -166,11 +174,11 @@ int main() {
 		}
 
 		text.setPosition(16, 16);
-		text.setString("Score: " + std::to_string(score));
+		text.setString("Score: " + std::to_string(score) + "/" + std::to_string(lastScore));
 		window.draw(text);
 
 		text.setPosition(16, 715);
-		text.setString("Time: " + std::to_string((int) ceilf(gameTime - clock.getElapsedTime().asSeconds())));
+		text.setString("Time: " + std::to_string(timeLeft));
 		window.draw(text);
 
 		window.display();
