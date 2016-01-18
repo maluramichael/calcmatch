@@ -108,6 +108,11 @@ int main() {
 			}
 		}
 
+		if (currentCell.x < 0) currentCell.x = 0;
+		if (currentCell.y < 0) currentCell.y = 0;
+		if (currentCell.x >= 10) currentCell.x = 9;
+		if (currentCell.y >= 10) currentCell.y = 9;
+
 		int timeLeft = (int) ceilf(gameTime - clock.getElapsedTime().asSeconds());
 
 		if (timeLeft == 0) {
