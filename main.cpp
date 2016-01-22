@@ -1,12 +1,63 @@
 #include <iostream>
 #include <random>
 #include <vector>
+#include <string>
+#include <list>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <entityx/entityx.h>
 
-using namespace std;
+namespace ex = entityx;
+
+struct Sprite {
+	Sprite(sf::Texture texture) : sprite(texture) {
+
+	};
+
+	sf::Sprite sprite;
+};
+
+struct Position {
+	Position(float x = 0.0f, float y = 0.0f) : x(x), y(y) { }
+
+	float x, y;
+};
+
+struct Value {
+	Value(int value) : value(value) { }
+
+	int value;
+};
+
+class Level : public ex::EntityX {
+public:
+	explicit Level(int difficulty) {
+		//systems.add<DebugSystem>();
+		//systems.add<KeyboardSystem>();
+		//systems.add<CollisionSystem>();
+		systems.configure();
+
+		generate();
+	}
+
+	void generate() {
+		for (auto x = 0; x < 10; x++) {
+			entityx::Entity entity = entities.create();
+			entity.assign<Position>(rand() % 100, rand() % 100);
+			entity.assign<Sprite>(rand() % 100, rand() % 100);
+		}
+	}
+
+	void update(sf::Time delta) {
+		//systems.update<DebugSystem>(delta);
+		//systems.update<KeyboardSystem>(delta);
+		//systems.update<CollisionSystem>(delta);
+	}
+};
 
 int main() {
+
+	entityx::EntityX world;
 
 	int score = 0;
 	int lastScore = 0;
@@ -54,20 +105,11 @@ int main() {
 
 	textureCell.loadFromFile("./assets/Red.png");
 	textureSelection.loadFromFile("./assets/Selection.png");
-	spriteCell.setTexture(textureCell);
-	spriteSelection.setTexture(textureSelection);
-
-	short grid[10][10];
-	for (int y = 0; y < 10; ++y) {
-		for (int x = 0; x < 10; ++x) {
-			grid[y][x] = (short) distribution(generator);
-		}
-	}
 
 	sf::RenderWindow window(sf::VideoMode(768, 768), "Match 10");
 	window.setFramerateLimit(30);
-	while (window.isOpen()) {
-
+	bool isRunning = true;
+	while (isRunning && window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			switch (event.type) {
@@ -76,6 +118,9 @@ int main() {
 					break;
 				case sf::Event::KeyPressed:
 					switch (event.key.code) {
+						case sf::Keyboard::Escape:
+							isRunning = false;
+							break;
 						case sf::Keyboard::Left:
 							soundSelection.play();
 							currentCell.x -= 1;
@@ -156,8 +201,8 @@ int main() {
 
 		window.clear(sf::Color::Black);
 
-		for (int y = 0; y < 10; ++y) {
-			for (int x = 0; x < 10; ++x) {
+		for (const int y = 0; y < 10; ++y) {
+			for (const int x = 0; x < 10; ++x) {
 				spriteCell.setPosition(x * 64 + gridOffset, y * 64 + gridOffset);
 				text.setPosition(x * 64 + gridOffset + 20, y * 64 + gridOffset + 13);
 				text.setString(std::to_string(grid[y][x]));
@@ -188,6 +233,7 @@ int main() {
 
 		window.display();
 	}
+	window.close();
 
 	return 0;
 }
