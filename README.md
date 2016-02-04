@@ -5,3 +5,6 @@ Select cells. If they match 10 you get points
 * Arrow Keys: move selection
 * Press Space: select a cell
 * Release Space: match selected cells
+
+## Build and Run
+cmake . && make -j 4 && ./match-ten
