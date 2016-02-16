@@ -4,7 +4,13 @@ PROJECT(${EXECUTABLE_NAME})
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-SET(SOURCE_FILES main.cpp)
+SET(SOURCE_FILES
+		src/main.cpp
+		src/Scene.cpp
+		src/Scenes/Menu.cpp
+		src/Scenes/Game.cpp
+		src/Application.cpp
+		)
 ADD_EXECUTABLE(${EXECUTABLE_NAME} ${SOURCE_FILES})
 
 # Detect and add SFML
