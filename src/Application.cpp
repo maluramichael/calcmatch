@@ -14,6 +14,7 @@ void Application::switchScene(Scene *scene) {
 		delete currentScene;
 	}
 	currentScene = scene;
+	currentScene->create();
 }
 
 int Application::run() {
